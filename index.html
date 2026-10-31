@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bảng tính Phương án Tài chính & Lịch trình Thanh toán - Dự án Gardenia Huế</title>
+  
+  <!-- Font phổ thông Inter tiếng Việt -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- HEADER -->
+    <header class="site-header">
+      <div>
+        <span class="brand-badge">IUC GROUP & ĐẤT XANH MIỀN TRUNG</span>
+        <h1 class="site-title">DỰ ÁN GARDENIA HUẾ</h1>
+        <p class="site-subtitle">Khu dân cư CTR11, CTR12 và LK10-LK13, Khu A, Đô thị mới An Vân Dương | Áp dụng: 22/10/2026 - 30/11/2026</p>
+      </div>
+      <div class="header-actions">
+        <button id="btn-copy-modal" class="btn btn-secondary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          Sao chép gửi Zalo
+        </button>
+        <button id="btn-print" class="btn btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 6 2 18 2 18 9"></polyline>
+            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+            <rect x="6" y="14" width="12" height="8"></rect>
+          </svg>
+          In phiếu phương án (A4)
+        </button>
+      </div>
+    </header>
+
+    <!-- BỐ CỤC CHÍNH (2 CỘT) -->
+    <div class="main-grid">
+      
+      <!-- CỘT TRÁI: BỘ LỌC VÀ DANH SÁCH 75 CĂN -->
+      <aside class="sidebar-panel">
+        <div class="panel-title">
+          <span>Tra cứu bảng hàng</span>
+          <span class="counter-badge" id="unit-filtered-count">75 / 75</span>
+        </div>
+
+        <div class="search-input-wrapper">
+          <input type="text" id="search-input" class="search-input" placeholder="Tìm mã lô (vd: 01-08), đường..." />
+        </div>
+
+        <!-- BỘ LỌC DẠNG SỔ XUỐNG GỌN GÀNG (PHỄU 3 TẦNG) -->
+        <div class="filter-dropdowns-grid">
+          <!-- TẦNG 1: LOẠI HÌNH SẢN PHẨM -->
+          <div class="filter-field">
+            <label class="filter-label" for="filter-type">Loại hình sản phẩm</label>
+            <select id="filter-type" class="filter-select">
+              <option value="all">Tất cả loại hình (75 căn)</option>
+              <option value="SH">Shophouse (30 căn)</option>
+              <option value="LK">Liền kề (45 căn)</option>
+            </select>
+          </div>
+
+          <!-- TẦNG 2: PHÂN KHU / DÃY LIỀN KỀ (TỰ ĐỘNG LỌC THEO LOẠI HÌNH) -->
+          <div class="filter-field">
+            <label class="filter-label" for="filter-block">Phân khu / Dãy liền kề</label>
+            <select id="filter-block" class="filter-select">
+              <option value="all">Tất cả phân khu (75 căn)</option>
+            </select>
+          </div>
+
+          <!-- TẦNG 3: KHOẢNG GIÁ NIÊM YẾT (TỰ ĐỘNG LỌC THEO LOẠI HÌNH & PHÂN KHU) -->
+          <div class="filter-field">
+            <label class="filter-label" for="filter-budget">Khoảng giá niêm yết</label>
+            <select id="filter-budget" class="filter-select">
+              <option value="all">Tất cả mức giá</option>
+            </select>
+          </div>
+
+          <button id="btn-reset-filter" class="filter-reset-btn" type="button">Đặt lại bộ lọc</button>
+        </div>
+
+        <!-- TAGS BỘ LỌC ĐANG ÁP DỤNG -->
+        <div class="active-filter-chips" id="active-filter-chips" style="display: none;"></div>
+
+        <div class="unit-list-container" id="unit-list-items">
+          <!-- Render danh sách sản phẩm động -->
+        </div>
+      </aside>
+
+      <!-- CỘT PHẢI: KHÔNG GIAN TÍNH TOÁN DÒNG TIỀN -->
+      <main class="content-panel">
+        
+        <!-- THẺ THÔNG TIN CHI TIẾT CĂN -->
+        <section class="unit-detail-card" id="unit-detail-container">
+          <!-- Render chi tiết căn động -->
+        </section>
+
+        <!-- BỘ NÚT LỰA CHỌN PHƯƠNG ÁN THANH TOÁN (COLOR-CODED BUTTONS) -->
+        <div class="payment-selector-wrapper">
+          <div class="payment-selector-header">
+            <span class="payment-selector-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+              Lựa chọn phương án thanh toán để tính dòng tiền chi tiết:
+            </span>
+            <span class="selector-hint">Bấm vào nút phương án để kích hoạt bảng tính</span>
+          </div>
+
+          <div class="payment-tabs-bar" role="tablist">
+            <!-- Nút 1: Tiến độ 24 tháng (Đất Xanh Blue) -->
+            <button class="tab-btn plan-progress-btn active" data-plan="progress" role="tab" aria-selected="true" type="button">
+              <div class="tab-btn-top">
+                <div class="tab-title-wrap">
+                  <span class="tab-radio"></span>
+                  <span class="tab-title">Phương án 1: Tiến độ 24 tháng</span>
+                </div>
+                <span class="tab-status-pill">Đang chọn</span>
+              </div>
+              <div class="tab-badge-row">
+                <span class="tab-highlight-tag tag-blue">Chiết khấu 18%</span>
+                <span class="tab-info-tag">11 đợt thanh toán</span>
+              </div>
+              <div class="tab-subtext">Thuê nhà 0 đồng trong 18 tháng để kinh doanh & nội thất</div>
+            </button>
+
+            <!-- Nút 2: Vay vốn Ngân hàng (Đất Xanh Orange) -->
+            <button class="tab-btn plan-loan-btn" data-plan="loan" role="tab" aria-selected="false" type="button">
+              <div class="tab-btn-top">
+                <div class="tab-title-wrap">
+                  <span class="tab-radio"></span>
+                  <span class="tab-title">Phương án 2: Vay vốn Ngân hàng</span>
+                </div>
+                <span class="tab-status-pill">Bấm chọn</span>
+              </div>
+              <div class="tab-badge-row">
+                <span class="tab-highlight-tag tag-orange">Chiết khấu 4%</span>
+                <span class="tab-highlight-tag tag-bank">HTLS 0% 24 tháng</span>
+              </div>
+              <div class="tab-subtext">Vốn tự có 30% - Ân hạn nợ gốc 24 tháng đầu tiên</div>
+            </button>
+
+            <!-- Nút 3: Đối chiếu song song (Slate) -->
+            <button class="tab-btn plan-compare-btn" data-plan="compare" role="tab" aria-selected="false" type="button">
+              <div class="tab-btn-top">
+                <div class="tab-title-wrap">
+                  <span class="tab-radio"></span>
+                  <span class="tab-title">Đối chiếu song song</span>
+                </div>
+                <span class="tab-status-pill">Bấm chọn</span>
+              </div>
+              <div class="tab-badge-row">
+                <span class="tab-highlight-tag tag-slate">So sánh trực tiếp</span>
+              </div>
+              <div class="tab-subtext">Xem bảng so sánh vốn tự có & dòng tiền 2 phương án</div>
+            </button>
+          </div>
+        </div>
+
+        <!-- KHỐI BÓC TÁCH CHI PHÍ BAN ĐẦU & BẢNG TIẾN ĐỘ -->
+        <div id="financial-breakdown-container">
+          <!-- Render bảng tính tài chính động -->
+        </div>
+
+        <!-- CHÍNH SÁCH QUÀ TẶNG & TIỆN ÍCH BÀN GIAO -->
+        <section class="perks-section">
+          <div class="section-header-row">
+            <h3 class="section-title">Chính sách Quà tặng & Tiện ích Hỗ trợ Khách hàng</h3>
+            <span class="badge-benefit">Chính sách bán hàng Đợt 1</span>
+          </div>
+
+          <div class="perks-grid" id="perks-grid-container">
+            <!-- Render các gói hỗ trợ từ chính sách -->
+          </div>
+
+          <div style="margin-top: 20px; border-top: 1px solid var(--color-border-subtle); padding-top: 16px;">
+            <div class="section-title" style="font-size: 13px; margin-bottom: 8px;">Tiện ích bàn giao đẳng cấp chuẩn resort trong phố</div>
+            <ul class="resort-list" id="resort-amenities-container">
+              <!-- Render tiện ích resort -->
+            </ul>
+          </div>
+        </section>
+
+      </main>
+
+    </div>
+
+  </div>
+
+  <!-- MODAL SAO CHÉP TÓM TẮT DÀNH CHO SALES -->
+  <div class="modal-overlay" id="copy-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>Tóm tắt Phương án Tài chính (Định dạng gửi Khách hàng)</h3>
+        <button class="modal-close-btn" id="modal-close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <textarea id="modal-copy-textarea" class="copy-textarea" readonly></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" id="modal-close-action">Đóng</button>
+        <button class="btn btn-primary" id="modal-copy-action">Sao chép vào bộ nhớ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST THÔNG BÁO -->
+  <div id="toast-notice" class="toast-notice"></div>
+
+  <!-- NẠP DỮ LIỆU VÀ MÃ ĐIỀU KHIỂN -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
+

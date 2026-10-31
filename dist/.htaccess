@@ -1,0 +1,9 @@
+# Bảo vệ thư mục và Header chống Index / chống nhúng Iframe
+Options -Indexes
+<IfModule mod_headers.c>
+  Header set X-Robots-Tag "noindex, nofollow, noarchive, nosnippet, noimageindex"
+  Header set X-Frame-Options "DENY"
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "no-referrer"
+  Header set Content-Security-Policy "frame-ancestors 'none';"
+</IfModule>
