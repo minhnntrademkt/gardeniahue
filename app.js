@@ -11,6 +11,7 @@
     selectedUnitId: 1, // Mặc định căn LK01-01
     activePlan: 'progress', // 'progress' | 'loan' | 'compare'
     depositDate: new Date('2026-10-31'), // Mặc định ngày hiện tại hoặc 31/10/2026
+    perksExpanded: false, // Thu gọn khối quà tặng trên Mobile mặc định
     filters: {
       search: '',
       block: 'all',
@@ -100,6 +101,8 @@
         order: 'Đợt 3',
         title: 'Thanh toán đợt 3',
         periodNote: 'Trong vòng 90 ngày từ HĐMB',
+        cadenceNote: 'Cách 60 ngày từ Đợt 2',
+        cadenceClass: 'cadence-60d',
         dueDate: addDays(hdmbDate, 90),
         ratePercent: '10% (có VAT)',
         amount: Math.round(price * 0.10),
@@ -110,16 +113,20 @@
         order: 'Đợt 4',
         title: 'Thanh toán đợt 4',
         periodNote: 'Trong vòng 180 ngày từ HĐMB',
+        cadenceNote: 'Khoảng nghỉ 90 ngày (3 tháng) kể từ Đợt 3',
+        cadenceClass: 'cadence-90d',
         dueDate: addDays(hdmbDate, 180),
         ratePercent: '10% (có VAT)',
         amount: Math.round(price * 0.10),
-        note: 'Tiến độ xây dựng và hoàn thiện',
+        note: 'Khoảng giãn cách 90 ngày chuẩn bị tài chính sau khi nhận nhà kinh doanh',
         benefit: ''
       },
       {
         order: 'Đợt 5',
         title: 'Thanh toán đợt 5',
         periodNote: 'Trong vòng 240 ngày từ HĐMB',
+        cadenceNote: 'Định kỳ cách 60 ngày (2 tháng)',
+        cadenceClass: 'cadence-60d',
         dueDate: addDays(hdmbDate, 240),
         ratePercent: '10% (có VAT)',
         amount: Math.round(price * 0.10),
@@ -130,6 +137,8 @@
         order: 'Đợt 6',
         title: 'Thanh toán đợt 6',
         periodNote: 'Trong vòng 300 ngày từ HĐMB',
+        cadenceNote: 'Định kỳ cách 60 ngày (2 tháng)',
+        cadenceClass: 'cadence-60d',
         dueDate: addDays(hdmbDate, 300),
         ratePercent: '10% (có VAT)',
         amount: Math.round(price * 0.10),
@@ -140,6 +149,8 @@
         order: 'Đợt 7',
         title: 'Thanh toán đợt 7',
         periodNote: 'Trong vòng 360 ngày từ HĐMB',
+        cadenceNote: 'Định kỳ cách 60 ngày - Tròn 12 tháng từ HĐMB',
+        cadenceClass: 'cadence-60d',
         dueDate: addDays(hdmbDate, 360),
         ratePercent: '10% (có VAT)',
         amount: Math.round(price * 0.10),
@@ -150,6 +161,8 @@
         order: 'Đợt 8',
         title: 'Thanh toán đợt 8',
         periodNote: 'Trong vòng 420 ngày từ HĐMB',
+        cadenceNote: 'Định kỳ cách 60 ngày (2 tháng)',
+        cadenceClass: 'cadence-60d',
         dueDate: addDays(hdmbDate, 420),
         ratePercent: '10% (có VAT)',
         amount: Math.round(price * 0.10),
@@ -160,6 +173,8 @@
         order: 'Đợt 9',
         title: 'Thanh toán đợt 9',
         periodNote: 'Trong vòng 480 ngày từ HĐMB',
+        cadenceNote: 'Định kỳ cách 60 ngày (2 tháng)',
+        cadenceClass: 'cadence-60d',
         dueDate: addDays(hdmbDate, 480),
         ratePercent: '10% (có VAT)',
         amount: Math.round(price * 0.10),
@@ -170,6 +185,8 @@
         order: 'Đợt 10',
         title: 'Thanh toán đợt 10',
         periodNote: 'Trong vòng 540 ngày từ HĐMB',
+        cadenceNote: 'Cách 60 ngày từ Đợt 9',
+        cadenceClass: 'cadence-60d',
         dueDate: addDays(hdmbDate, 540),
         ratePercent: '5% (VAT) + VAT Đợt 11',
         amount: period10Amount,
@@ -180,6 +197,8 @@
         order: 'Đợt 11',
         title: 'Nhận Giấy chứng nhận QSH Nhà ở',
         periodNote: 'Khi nhận Thông báo nhận GCN QSDĐ',
+        cadenceNote: 'Bàn giao sổ nhà theo thông báo CĐT',
+        cadenceClass: 'cadence-final',
         dueDate: new Date('2027-02-28'),
         ratePercent: '5% (chưa VAT) + 0,5% LPTB',
         amount: period11Amount,
@@ -237,6 +256,8 @@
         order: 'Đợt 1',
         title: 'Ký Hợp đồng mua bán (HĐMB)',
         periodNote: 'Trong vòng 10 ngày từ PĐC',
+        cadenceNote: 'Ký HĐMB chính thức',
+        cadenceClass: 'cadence-60d',
         dueDate: hdmbDate,
         ratePercent: 'KH: 15% (có VAT)',
         customerAmount: Math.round((price * 0.15) - PROJECT_CONFIG.depositDefault),
@@ -248,6 +269,8 @@
         order: 'Đợt 2',
         title: 'Đợt 2 - Giải ngân lần 1',
         periodNote: 'Trong vòng 30 ngày từ HĐMB',
+        cadenceNote: 'Cách 20 ngày kể từ Đợt 1',
+        cadenceClass: 'cadence-60d',
         dueDate: addDays(hdmbDate, 30),
         ratePercent: 'KH: 5% | NH: 40%',
         customerAmount: Math.round(price * 0.05),
@@ -259,6 +282,8 @@
         order: 'Đợt 3',
         title: 'Đợt 3 - Giải ngân lần 2',
         periodNote: 'Trong vòng 240 ngày từ HĐMB',
+        cadenceNote: 'Cách 210 ngày (7 tháng) từ Đợt 2',
+        cadenceClass: 'cadence-90d',
         dueDate: addDays(hdmbDate, 240),
         ratePercent: 'KH: 10% | NH: 25% + VAT',
         customerAmount: Math.round(price * 0.10),
@@ -269,7 +294,9 @@
       {
         order: 'Đợt 4',
         title: 'Nhận GCN QSH Nhà ở',
-        periodNote: 'Trong vòng 300 ngày từ HĐMB',
+        periodNote: 'Khi nhận thông báo bàn giao GCN',
+        cadenceNote: 'Bàn giao sổ nhà theo thông báo CĐT',
+        cadenceClass: 'cadence-final',
         dueDate: addDays(hdmbDate, 300),
         ratePercent: 'KH: 0,5% LPTB | NH: 5%',
         customerAmount: regFee, // 0.5% lệ phí trước bạ
@@ -358,33 +385,39 @@
 
       <div class="price-comparison-grid">
         <div class="price-card">
-          <div class="price-card-header-flex">
+          <div class="price-card-left">
             <span class="price-card-label">Giá niêm yết (Gồm VAT 10%)</span>
+            <div class="price-card-sub">Đơn giá sàn: ${formatVND(unit.originalUnitPrice)}/m²</div>
           </div>
-          <div class="price-card-value tabular-nums">${formatVND(unit.originalPrice)}</div>
-          <div class="price-card-sub">Đơn giá sàn: ${formatVND(unit.originalUnitPrice)}/m²</div>
+          <div class="price-card-right">
+            <div class="price-card-value tabular-nums">${formatVND(unit.originalPrice)}</div>
+          </div>
         </div>
 
         <div class="price-card interactive ${state.activePlan === 'progress' ? 'active-card' : ''}" data-plan="progress" role="button" tabindex="0" title="Bấm để chọn phương án Tiến độ 24 tháng">
-          <div class="price-card-header-flex">
+          <div class="price-card-left">
             <span class="price-card-label">Giá thanh toán 24 tháng (-18%)</span>
+            <div class="price-card-sub">Tiết kiệm: <strong>${formatVND(discount18Savings)}</strong> (${formatBillion(discount18Savings)})</div>
+          </div>
+          <div class="price-card-right">
+            <div class="price-card-value tabular-nums">${formatVND(unit.progressPrice)}</div>
             <span class="card-select-badge ${state.activePlan === 'progress' ? 'badge-selected' : ''}">
               ${state.activePlan === 'progress' ? 'Đang chọn' : 'Bấm chọn'}
             </span>
           </div>
-          <div class="price-card-value tabular-nums">${formatVND(unit.progressPrice)}</div>
-          <div class="price-card-sub">Tiết kiệm: <strong>${formatVND(discount18Savings)}</strong> (${formatBillion(discount18Savings)})</div>
         </div>
 
         <div class="price-card interactive ${state.activePlan === 'loan' ? 'active-card' : ''}" data-plan="loan" role="button" tabindex="0" title="Bấm để chọn phương án Vay ngân hàng">
-          <div class="price-card-header-flex">
+          <div class="price-card-left">
             <span class="price-card-label">Giá phương án vay (-4%)</span>
+            <div class="price-card-sub">Tiết kiệm: <strong>${formatVND(discount4Savings)}</strong> (HTLS 0% 24 tháng)</div>
+          </div>
+          <div class="price-card-right">
+            <div class="price-card-value tabular-nums">${formatVND(unit.loanPrice)}</div>
             <span class="card-select-badge ${state.activePlan === 'loan' ? 'badge-selected' : ''}">
               ${state.activePlan === 'loan' ? 'Đang chọn' : 'Bấm chọn'}
             </span>
           </div>
-          <div class="price-card-value tabular-nums">${formatVND(unit.loanPrice)}</div>
-          <div class="price-card-sub">Tiết kiệm: <strong>${formatVND(discount4Savings)}</strong> (HTLS 0% 24 tháng)</div>
         </div>
       </div>
     `;
@@ -576,9 +609,53 @@
     renderUnitList();
   }
 
+  function syncMobileBarLabel(unit) {
+    const mobileUnitLabel = document.getElementById('mobile-bar-unit-label');
+    if (mobileUnitLabel && unit) {
+      mobileUnitLabel.textContent = `Đổi căn (${unit.code})`;
+    }
+  }
+
+  function populateUnitSelectDropdown(filtered) {
+    const unitSelect = document.getElementById('filter-unit');
+    if (!unitSelect) return;
+
+    if (filtered.length === 0) {
+      unitSelect.innerHTML = '<option value="">Không có sản phẩm phù hợp (0 căn)</option>';
+      unitSelect.disabled = true;
+      return;
+    }
+
+    unitSelect.disabled = false;
+    const isLoan = state.activePlan === 'loan';
+    const planShort = isLoan ? 'Vay' : 'TT sớm';
+
+    const buildOptionHtml = u => {
+      const displayPrice = isLoan ? u.loanPrice : u.progressPrice;
+      return `<option value="${u.stt}">${u.code} - ${u.typeLabel} | ${u.landArea}m² | ${planShort}: ${formatBillion(displayPrice)}</option>`;
+    };
+
+    const activeBlocks = ALL_BLOCKS.filter(b => filtered.some(u => u.block === b.code));
+    if (activeBlocks.length > 1) {
+      unitSelect.innerHTML = activeBlocks.map(b => {
+        const blockUnits = filtered.filter(u => u.block === b.code);
+        return `
+          <optgroup label="Phân khu ${b.code} - ${b.desc} (${blockUnits.length} căn)">
+            ${blockUnits.map(buildOptionHtml).join('')}
+          </optgroup>
+        `;
+      }).join('');
+    } else {
+      unitSelect.innerHTML = filtered.map(buildOptionHtml).join('');
+    }
+
+    unitSelect.value = String(state.selectedUnitId);
+  }
+
   function renderUnitList() {
     const listContainer = document.getElementById('unit-list-items');
     const countBadge = document.getElementById('unit-filtered-count');
+    const sidebarPanel = document.getElementById('product-selector-panel');
     if (!listContainer) return;
 
     const filtered = GARDENIA_PRODUCTS.filter(unit => {
@@ -617,6 +694,8 @@
     if (countBadge) countBadge.textContent = `${filtered.length} / 75`;
 
     if (filtered.length === 0) {
+      if (sidebarPanel) sidebarPanel.classList.add('has-empty-filter');
+      populateUnitSelectDropdown(filtered);
       listContainer.innerHTML = `
         <div class="empty-state-card">
           <div class="empty-state-icon">
@@ -643,6 +722,8 @@
       return;
     }
 
+    if (sidebarPanel) sidebarPanel.classList.remove('has-empty-filter');
+
     // Tự động đồng bộ hiển thị sang căn đầu tiên trong danh sách lọc nếu căn cũ không thuộc kết quả lọc
     const isCurrentInFiltered = filtered.some(u => u.stt === state.selectedUnitId);
     if (!isCurrentInFiltered && filtered.length > 0) {
@@ -651,6 +732,10 @@
       renderUnitDetailCard(newUnit);
       renderFinancialBreakdown(newUnit);
     }
+
+    const activeUnit = GARDENIA_PRODUCTS.find(u => u.stt === state.selectedUnitId) || filtered[0];
+    syncMobileBarLabel(activeUnit);
+    populateUnitSelectDropdown(filtered);
 
     listContainer.innerHTML = filtered.map(u => {
       const isSelected = u.stt === state.selectedUnitId;
@@ -674,7 +759,7 @@
       `;
     }).join('');
 
-    // Gắn sự kiện click chọn căn
+    // Gắn sự kiện click chọn căn trên danh sách cột trái (Desktop)
     listContainer.querySelectorAll('.unit-card').forEach(card => {
       card.addEventListener('click', function () {
         const id = parseInt(this.getAttribute('data-id'), 10);
@@ -694,28 +779,31 @@
         <div class="initial-capital-section">
           <div class="section-header-row">
             <h3 class="section-title">1. Chi phí Vốn tự có cần chuẩn bị ban đầu (Phương án Tiến độ)</h3>
-            <div class="date-picker-inline">
-              <label for="deposit-date-input">Ngày ký PĐC dự kiến:</label>
-              <input type="date" id="deposit-date-input" class="date-input" value="${state.depositDate.toISOString().split('T')[0]}" />
-            </div>
+            <span class="badge-benefit">Thanh toán chuẩn theo HĐMB</span>
           </div>
 
           <div class="initial-steps-grid">
             <div class="step-card">
-              <div class="step-badge">Bước 1: Ngay khi ký PĐC</div>
-              <div class="step-amount tabular-nums">${formatVND(data.initialDeposit)}</div>
-              <div class="step-notes">Ký Phiếu đặt cọc và đóng đủ 100 triệu đồng/căn. Ngày: ${formatDate(state.depositDate)}.</div>
+              <div class="step-card-top">
+                <div class="step-badge">Bước 1: Ngay khi ký PĐC</div>
+                <div class="step-amount tabular-nums">${formatVND(data.initialDeposit)}</div>
+              </div>
+              <div class="step-notes">Ký Phiếu đặt cọc và đóng đủ 100 triệu đồng/căn theo quy định.</div>
             </div>
 
             <div class="step-card primary">
-              <div class="step-badge">Bước 2: Trong vòng 10 ngày (Ký HĐMB)</div>
-              <div class="step-amount tabular-nums">${formatVND(data.initialStep1)}</div>
+              <div class="step-card-top">
+                <div class="step-badge">Bước 2: Trong vòng 10 ngày (Ký HĐMB)</div>
+                <div class="step-amount tabular-nums">${formatVND(data.initialStep1)}</div>
+              </div>
               <div class="step-notes">15% Giá bán có VAT (${formatVND(data.initialDueAtContract)}) trừ 100 triệu đã cọc.</div>
             </div>
 
             <div class="step-card">
-              <div class="step-badge">Bước 3: Trong 30 ngày từ HĐMB</div>
-              <div class="step-amount tabular-nums">${formatVND(Math.round(data.totalPrice * 0.05))}</div>
+              <div class="step-card-top">
+                <div class="step-badge">Bước 3: Trong 30 ngày từ HĐMB</div>
+                <div class="step-amount tabular-nums">${formatVND(Math.round(data.totalPrice * 0.05))}</div>
+              </div>
               <div class="step-notes">Đóng tiếp 5% Giá bán. Tổng lũy kế đạt 20% giá bán sau 30 ngày.</div>
             </div>
           </div>
@@ -733,26 +821,29 @@
           </div>
 
           <div class="table-responsive">
-            <table class="data-table">
+            <table class="data-table schedule-table">
               <thead>
                 <tr>
-                  <th class="text-center" style="width: 60px;">Đợt</th>
-                  <th>Thời hạn quy định</th>
-                  <th>Ngày dự kiến</th>
-                  <th class="text-center">Tỷ lệ %</th>
-                  <th class="text-right">Số tiền thanh toán (VNĐ)</th>
+                  <th class="text-center" style="width: 65px;">Đợt</th>
+                  <th style="width: 26%;">Thời hạn quy định</th>
+                  <th class="text-center" style="width: 115px;">Tỷ lệ %</th>
+                  <th class="text-right" style="width: 170px;">Số tiền thanh toán (VNĐ)</th>
                   <th>Quyền lợi & Nội dung</th>
                 </tr>
               </thead>
               <tbody>
                 ${data.rows.map((r, idx) => `
-                  <tr class="${idx === 1 || idx === 3 || idx === 11 ? 'highlight-row' : ''}">
-                    <td class="text-center font-bold">${r.order}</td>
-                    <td>${r.periodNote}</td>
-                    <td class="tabular-nums">${formatDate(r.dueDate)}</td>
-                    <td class="text-center tabular-nums">${r.ratePercent}</td>
-                    <td class="text-right tabular-nums font-bold">${formatVND(r.amount)}</td>
-                    <td>
+                  <tr class="schedule-row ${idx === 1 || idx === 3 || idx === 11 ? 'highlight-row' : ''}">
+                    <td class="text-center font-bold cell-order" data-label="Tiến độ">${r.order}</td>
+                    <td class="cell-period" data-label="Thời hạn">
+                      <div class="cell-period-content">
+                        <span class="period-title">${r.periodNote}</span>
+                        ${r.cadenceNote ? `<span class="cadence-tag ${r.cadenceClass || ''}">${r.cadenceNote}</span>` : ''}
+                      </div>
+                    </td>
+                    <td class="text-center tabular-nums cell-rate" data-label="Tỷ lệ">${r.ratePercent}</td>
+                    <td class="text-right tabular-nums font-bold cell-amount" data-label="Số tiền đóng">${formatVND(r.amount)}</td>
+                    <td class="cell-note" data-label="Nội dung">
                       <div>${r.note}</div>
                       ${r.benefit ? `<div class="badge-benefit">${r.benefit}</div>` : ''}
                     </td>
@@ -760,16 +851,17 @@
                 `).join('')}
               </tbody>
               <tfoot>
-                <tr>
-                  <td colspan="4" class="text-right">TỔNG CỘNG TIỀN NHÀ VÀ ĐẤT (ĐÃ GỒM VAT 10%):</td>
-                  <td class="text-right tabular-nums font-bold" style="color: var(--color-primary); font-size: 15px;">${formatVND(data.totalPrice)}</td>
-                  <td>Tiết kiệm 18%: ${formatVND(data.savings)} so với giá niêm yết</td>
+                <tr class="tfoot-summary-row">
+                  <td colspan="3" class="text-right tfoot-label-cell">TỔNG CỘNG TIỀN NHÀ VÀ ĐẤT (ĐÃ GỒM VAT 10%):</td>
+                  <td class="text-right tabular-nums font-bold tfoot-amount-cell" data-label="Tổng giá bán (-18%)" style="color: var(--color-primary); font-size: 15px;">${formatVND(data.totalPrice)}</td>
+                  <td class="tfoot-note-cell" data-label="Ưu đãi chiết khấu">Tiết kiệm 18%: ${formatVND(data.savings)} so với giá niêm yết</td>
                 </tr>
               </tfoot>
             </table>
           </div>
+
           <div style="font-size: 11px; color: var(--color-text-muted); margin-top: 10px; line-height: 1.5;">
-            * Ghi chú: Đợt 11 có thêm khoản 0,5% lệ phí trước bạ theo quy định pháp luật để nhận GCN QSH nhà ở (tạm tính theo giá bán: ${formatVND(data.registrationFee)}). Thời gian CĐT hoàn thành cập nhật Giấy chứng nhận quyền sở hữu nhà là ngày 28/02/2027 (hoàn thành công tác cập nhật sổ nhà tháng 3/2027).
+            * Ghi chú: Đợt 11 có thêm khoản 0,5% lệ phí trước bạ theo quy định pháp luật để nhận GCN QSH nhà ở (tạm tính theo giá bán: ${formatVND(data.registrationFee)}). Thời gian CĐT hoàn thành cập nhật Giấy chứng nhận quyền sở hữu nhà thực hiện theo thông báo chính thức từ Chủ đầu tư.
           </div>
         </div>
       `;
@@ -780,28 +872,31 @@
         <div class="initial-capital-section">
           <div class="section-header-row">
             <h3 class="section-title">1. Chi phí Vốn tự có cần chuẩn bị (Phương án Vay Ngân hàng 70%)</h3>
-            <div class="date-picker-inline">
-              <label for="deposit-date-input">Ngày ký PĐC dự kiến:</label>
-              <input type="date" id="deposit-date-input" class="date-input" value="${state.depositDate.toISOString().split('T')[0]}" />
-            </div>
+            <span class="badge-bank">Vốn tự có 30% - HĐMB</span>
           </div>
 
           <div class="initial-steps-grid">
             <div class="step-card">
-              <div class="step-badge">Bước 1: Ngay khi ký PĐC</div>
-              <div class="step-amount tabular-nums">${formatVND(data.initialDeposit)}</div>
-              <div class="step-notes">Khách hàng đặt cọc 100 triệu đồng. Ngày: ${formatDate(state.depositDate)}.</div>
+              <div class="step-card-top">
+                <div class="step-badge">Bước 1: Ngay khi ký PĐC</div>
+                <div class="step-amount tabular-nums">${formatVND(data.initialDeposit)}</div>
+              </div>
+              <div class="step-notes">Khách hàng đặt cọc 100 triệu đồng/căn theo quy định.</div>
             </div>
 
             <div class="step-card gold">
-              <div class="step-badge">Bước 2: Trong 10 ngày (Ký HĐMB)</div>
-              <div class="step-amount tabular-nums">${formatVND(data.initialStep1)}</div>
+              <div class="step-card-top">
+                <div class="step-badge">Bước 2: Trong 10 ngày (Ký HĐMB)</div>
+                <div class="step-amount tabular-nums">${formatVND(data.initialStep1)}</div>
+              </div>
               <div class="step-notes">15% Giá bán có VAT (${formatVND(data.initialDueAtContract)}) trừ 100 triệu cọc.</div>
             </div>
 
             <div class="step-card primary">
-              <div class="step-badge">Bước 3: Trong 30 ngày (Đợt 2)</div>
-              <div class="step-amount tabular-nums">${formatVND(Math.round(data.totalPrice * 0.05))}</div>
+              <div class="step-card-top">
+                <div class="step-badge">Bước 3: Trong 30 ngày (Đợt 2)</div>
+                <div class="step-amount tabular-nums">${formatVND(Math.round(data.totalPrice * 0.05))}</div>
+              </div>
               <div class="step-notes">Đóng 5%. Ngân hàng giải ngân 40%. Nhận nhà thuê 0 đồng 300 ngày.</div>
             </div>
           </div>
@@ -819,28 +914,31 @@
           </div>
 
           <div class="table-responsive">
-            <table class="data-table">
+            <table class="data-table schedule-table loan-table">
               <thead>
                 <tr>
-                  <th class="text-center" style="width: 50px;">Đợt</th>
-                  <th>Thời hạn quy định</th>
-                  <th>Ngày dự kiến</th>
-                  <th class="text-center">Tỷ lệ %</th>
-                  <th class="text-right">Khách hàng thanh toán</th>
-                  <th class="text-right">Ngân hàng giải ngân</th>
+                  <th class="text-center" style="width: 60px;">Đợt</th>
+                  <th style="width: 24%;">Thời hạn quy định</th>
+                  <th class="text-center" style="width: 125px;">Tỷ lệ %</th>
+                  <th class="text-right" style="width: 155px;">Khách hàng thanh toán</th>
+                  <th class="text-right" style="width: 155px;">Ngân hàng giải ngân</th>
                   <th>Quyền lợi & Nội dung</th>
                 </tr>
               </thead>
               <tbody>
                 ${data.rows.map((r, idx) => `
-                  <tr class="${idx === 2 || idx === 4 ? 'highlight-row' : ''}">
-                    <td class="text-center font-bold">${r.order}</td>
-                    <td>${r.periodNote}</td>
-                    <td class="tabular-nums">${formatDate(r.dueDate)}</td>
-                    <td class="text-center tabular-nums">${r.ratePercent}</td>
-                    <td class="text-right tabular-nums font-bold" style="color: var(--color-primary);">${formatVND(r.customerAmount)}</td>
-                    <td class="text-right tabular-nums font-bold" style="color: var(--color-accent-blue);">${r.bankAmount > 0 ? formatVND(r.bankAmount) : '-'}</td>
-                    <td>
+                  <tr class="schedule-row ${idx === 2 || idx === 4 ? 'highlight-row' : ''}">
+                    <td class="text-center font-bold cell-order" data-label="Tiến độ">${r.order}</td>
+                    <td class="cell-period" data-label="Thời hạn">
+                      <div class="cell-period-content">
+                        <span class="period-title">${r.periodNote}</span>
+                        ${r.cadenceNote ? `<span class="cadence-tag ${r.cadenceClass || ''}">${r.cadenceNote}</span>` : ''}
+                      </div>
+                    </td>
+                    <td class="text-center tabular-nums cell-rate" data-label="Tỷ lệ">${r.ratePercent}</td>
+                    <td class="text-right tabular-nums font-bold cell-amount" data-label="KH thanh toán" style="color: var(--color-primary);">${formatVND(r.customerAmount)}</td>
+                    <td class="text-right tabular-nums font-bold cell-bank" data-label="NH giải ngân" style="color: var(--color-accent-orange-dark);">${r.bankAmount > 0 ? formatVND(r.bankAmount) : '-'}</td>
+                    <td class="cell-note" data-label="Nội dung">
                       <div>${r.note}</div>
                       ${r.benefit ? `<div class="badge-benefit">${r.benefit}</div>` : ''}
                     </td>
@@ -848,11 +946,11 @@
                 `).join('')}
               </tbody>
               <tfoot>
-                <tr>
-                  <td colspan="4" class="text-right">TỔNG CỘNG:</td>
-                  <td class="text-right tabular-nums font-bold" style="color: var(--color-primary);">${formatVND(data.totalCustomerPaid)} (30%)</td>
-                  <td class="text-right tabular-nums font-bold" style="color: var(--color-accent-blue);">${formatVND(data.totalBankDisbursed)} (70%)</td>
-                  <td>Tổng giá bán (-4%): ${formatVND(data.totalPrice)}</td>
+                <tr class="tfoot-summary-row">
+                  <td colspan="3" class="text-right tfoot-label-cell">TỔNG CỘNG:</td>
+                  <td class="text-right tabular-nums font-bold tfoot-amount-cell" data-label="Vốn tự có KH (30%)" style="color: var(--color-primary);">${formatVND(data.totalCustomerPaid)} (30%)</td>
+                  <td class="text-right tabular-nums font-bold tfoot-bank-cell" data-label="NH giải ngân (70%)" style="color: var(--color-accent-orange-dark);">${formatVND(data.totalBankDisbursed)} (70%)</td>
+                  <td class="tfoot-note-cell" data-label="Tổng giá bán (-4%)">Tổng giá bán (-4%): ${formatVND(data.totalPrice)}</td>
                 </tr>
               </tfoot>
             </table>
@@ -875,63 +973,63 @@
           </div>
 
           <div class="table-responsive">
-            <table class="data-table">
+            <table class="data-table compare-table">
               <thead>
                 <tr>
-                  <th>Chỉ số so sánh</th>
-                  <th class="text-right" style="width: 250px;">Phương án 1: Tiến độ 24 tháng</th>
-                  <th class="text-right" style="width: 250px;">Phương án 2: Vay vốn Ngân hàng</th>
+                  <th style="width: 28%;">Chỉ số so sánh</th>
+                  <th class="text-right" style="width: 205px;">Phương án 1: Tiến độ 24 tháng</th>
+                  <th class="text-right" style="width: 205px;">Phương án 2: Vay vốn Ngân hàng</th>
                   <th>Chênh lệch & Đánh giá dòng tiền</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td><strong>Giá niêm yết (gồm 10% VAT)</strong></td>
-                  <td class="text-right tabular-nums font-bold">${formatVND(unit.originalPrice)}</td>
-                  <td class="text-right tabular-nums font-bold">${formatVND(unit.originalPrice)}</td>
-                  <td>Giá niêm yết CĐT công bố</td>
+                <tr class="compare-row">
+                  <td class="compare-metric-cell"><strong>Giá niêm yết (gồm 10% VAT)</strong></td>
+                  <td class="text-right tabular-nums font-bold" data-label="PA1: Tiến độ 24T">${formatVND(unit.originalPrice)}</td>
+                  <td class="text-right tabular-nums font-bold" data-label="PA2: Vay Ngân hàng">${formatVND(unit.originalPrice)}</td>
+                  <td class="compare-note-cell" data-label="Đánh giá">Giá niêm yết CĐT công bố</td>
                 </tr>
-                <tr class="highlight-row">
-                  <td><strong>Tỷ lệ chiết khấu áp dụng</strong></td>
-                  <td class="text-right tabular-nums font-bold" style="color: var(--color-primary);">Chiết khấu 18%</td>
-                  <td class="text-right tabular-nums font-bold" style="color: var(--color-gold-dark);">Chiết khấu 4%</td>
-                  <td>Tiến độ hưởng mức chiết khấu cao nhất (+14%)</td>
+                <tr class="compare-row highlight-row">
+                  <td class="compare-metric-cell"><strong>Tỷ lệ chiết khấu áp dụng</strong></td>
+                  <td class="text-right tabular-nums font-bold" data-label="PA1: Tiến độ 24T" style="color: var(--color-primary);">Chiết khấu 18%</td>
+                  <td class="text-right tabular-nums font-bold" data-label="PA2: Vay Ngân hàng" style="color: var(--color-gold-dark);">Chiết khấu 4%</td>
+                  <td class="compare-note-cell" data-label="Đánh giá">Tiến độ hưởng mức chiết khấu cao nhất (+14%)</td>
                 </tr>
-                <tr>
-                  <td><strong>Giá bán sau chiết khấu</strong></td>
-                  <td class="text-right tabular-nums font-bold" style="color: var(--color-primary);">${formatVND(dataProgress.totalPrice)}</td>
-                  <td class="text-right tabular-nums font-bold" style="color: var(--color-gold-dark);">${formatVND(dataLoan.totalPrice)}</td>
-                  <td>Phương án Tiến độ rẻ hơn: <strong class="tabular-nums">${formatVND(diffTotal)}</strong></td>
+                <tr class="compare-row">
+                  <td class="compare-metric-cell"><strong>Giá bán sau chiết khấu</strong></td>
+                  <td class="text-right tabular-nums font-bold" data-label="PA1: Tiến độ 24T" style="color: var(--color-primary);">${formatVND(dataProgress.totalPrice)}</td>
+                  <td class="text-right tabular-nums font-bold" data-label="PA2: Vay Ngân hàng" style="color: var(--color-gold-dark);">${formatVND(dataLoan.totalPrice)}</td>
+                  <td class="compare-note-cell" data-label="Đánh giá">Phương án Tiến độ rẻ hơn: <strong class="tabular-nums">${formatVND(diffTotal)}</strong></td>
                 </tr>
-                <tr>
-                  <td><strong>Số tiền tiết kiệm so với giá niêm yết</strong></td>
-                  <td class="text-right tabular-nums">${formatVND(dataProgress.savings)}</td>
-                  <td class="text-right tabular-nums">${formatVND(dataLoan.savings)}</td>
-                  <td>Lợi thế tài chính lớn khi trả theo tiến độ</td>
+                <tr class="compare-row">
+                  <td class="compare-metric-cell"><strong>Số tiền tiết kiệm so với giá niêm yết</strong></td>
+                  <td class="text-right tabular-nums" data-label="PA1: Tiến độ 24T">${formatVND(dataProgress.savings)}</td>
+                  <td class="text-right tabular-nums" data-label="PA2: Vay Ngân hàng">${formatVND(dataLoan.savings)}</td>
+                  <td class="compare-note-cell" data-label="Đánh giá">Lợi thế tài chính lớn khi trả theo tiến độ</td>
                 </tr>
-                <tr class="highlight-row">
-                  <td><strong>Tổng vốn tự có cần có trong 24 tháng</strong></td>
-                  <td class="text-right tabular-nums font-bold">${formatVND(dataProgress.totalPrice)} (100%)</td>
-                  <td class="text-right tabular-nums font-bold" style="color: var(--color-accent-blue);">${formatVND(dataLoan.totalCustomerPaid)} (30%)</td>
-                  <td>Gói vay chỉ cần bỏ ra 30% vốn tự có trong suốt 2 năm đầu</td>
+                <tr class="compare-row highlight-row">
+                  <td class="compare-metric-cell"><strong>Tổng vốn tự có cần có trong 24 tháng</strong></td>
+                  <td class="text-right tabular-nums font-bold" data-label="PA1: Tiến độ 24T">${formatVND(dataProgress.totalPrice)} (100%)</td>
+                  <td class="text-right tabular-nums font-bold" data-label="PA2: Vay Ngân hàng" style="color: var(--color-accent-orange-dark);">${formatVND(dataLoan.totalCustomerPaid)} (30%)</td>
+                  <td class="compare-note-cell" data-label="Đánh giá">Gói vay chỉ cần bỏ ra 30% vốn tự có trong suốt 2 năm đầu</td>
                 </tr>
-                <tr>
-                  <td><strong>Vốn ban đầu khi ký HĐMB (10 ngày)</strong></td>
-                  <td class="text-right tabular-nums">${formatVND(dataProgress.initialDueAtContract)} (15%)</td>
-                  <td class="text-right tabular-nums">${formatVND(dataLoan.initialDueAtContract)} (15%)</td>
-                  <td>Đều chuẩn bị 15% (đã gồm 100 tr cọc)</td>
+                <tr class="compare-row">
+                  <td class="compare-metric-cell"><strong>Vốn ban đầu khi ký HĐMB (10 ngày)</strong></td>
+                  <td class="text-right tabular-nums" data-label="PA1: Tiến độ 24T">${formatVND(dataProgress.initialDueAtContract)} (15%)</td>
+                  <td class="text-right tabular-nums" data-label="PA2: Vay Ngân hàng">${formatVND(dataLoan.initialDueAtContract)} (15%)</td>
+                  <td class="compare-note-cell" data-label="Đánh giá">Đều chuẩn bị 15% (đã gồm 100 tr cọc)</td>
                 </tr>
-                <tr>
-                  <td><strong>Đặc quyền thuê nhà 0 đồng nhận sớm</strong></td>
-                  <td class="text-right">18 tháng (kể từ Đợt 3 - 90 ngày)</td>
-                  <td class="text-right">300 ngày (kể từ Đợt 2 - 30 ngày)</td>
-                  <td>Nhận nhà sớm để hoàn thiện decor kinh doanh</td>
+                <tr class="compare-row">
+                  <td class="compare-metric-cell"><strong>Đặc quyền thuê nhà 0 đồng nhận sớm</strong></td>
+                  <td class="text-right" data-label="PA1: Tiến độ 24T">18 tháng (từ Đợt 3 - 90 ngày)</td>
+                  <td class="text-right" data-label="PA2: Vay Ngân hàng">300 ngày (từ Đợt 2 - 30 ngày)</td>
+                  <td class="compare-note-cell" data-label="Đánh giá">Nhận nhà sớm để hoàn thiện decor kinh doanh</td>
                 </tr>
-                <tr>
-                  <td><strong>Chính sách lãi suất & Ân hạn nợ gốc</strong></td>
-                  <td class="text-right">- (Khách tự cân đối vốn)</td>
-                  <td class="text-right" style="color: var(--color-accent-blue); font-weight: 600;">HTLS 0% & Ân hạn gốc 24 tháng</td>
-                  <td>Không chịu áp lực trả lãi và gốc ngân hàng trong 2 năm</td>
+                <tr class="compare-row">
+                  <td class="compare-metric-cell"><strong>Chính sách lãi suất & Ân hạn nợ gốc</strong></td>
+                  <td class="text-right" data-label="PA1: Tiến độ 24T">Tự cân đối vốn</td>
+                  <td class="text-right" data-label="PA2: Vay Ngân hàng" style="color: var(--color-accent-orange-dark); font-weight: 600;">HTLS 0% & Ân hạn gốc 24 tháng</td>
+                  <td class="compare-note-cell" data-label="Đánh giá">Không chịu áp lực trả lãi và gốc ngân hàng trong 2 năm</td>
                 </tr>
               </tbody>
             </table>
@@ -944,18 +1042,6 @@
           </div>
         </div>
       `;
-    }
-
-    // Gắn sự kiện date input
-    const dateInput = document.getElementById('deposit-date-input');
-    if (dateInput) {
-      dateInput.addEventListener('change', function () {
-        const val = this.value;
-        if (val) {
-          state.depositDate = new Date(val);
-          renderFinancialBreakdown(unit);
-        }
-      });
     }
   }
 
@@ -1027,7 +1113,7 @@
       text += `- Số tiền tiết kiệm so với giá niêm yết: ${formatVND(chosenData.savings)}\n\n`;
 
       text += `1. CHI PHÍ VỐN TỰ CÓ BAN ĐẦU CẦN CHUẨN BỊ:\n`;
-      text += `- Đặt cọc: ${formatVND(PROJECT_CONFIG.depositDefault)} (Ngày: ${formatDate(state.depositDate)})\n`;
+      text += `- Đặt cọc: ${formatVND(PROJECT_CONFIG.depositDefault)} (Ngay khi ký PĐC)\n`;
       text += `- Đợt 1 ký HĐMB (10 ngày sau PĐC): ${formatVND(chosenData.initialStep1)} (Đã trừ 100 tr cọc)\n`;
       text += `-> Tổng vốn tự có để ký HĐMB (15%): ${formatVND(chosenData.initialDueAtContract)}\n`;
       text += `- Đợt 2 (30 ngày sau HĐMB): ${formatVND(Math.round(chosenData.totalPrice * 0.05))} (5%)\n`;
@@ -1036,14 +1122,14 @@
       text += `2. LỊCH TRÌNH THANH TOÁN CHI TIẾT:\n`;
       if (isProgress) {
         dataProgress.rows.forEach(r => {
-          text += `[${r.order}] ${r.periodNote} (${formatDate(r.dueDate)}): ${formatVND(r.amount)} (${r.ratePercent})\n`;
+          text += `[${r.order}] ${r.periodNote}${r.cadenceNote ? ` - ${r.cadenceNote}` : ''}: ${formatVND(r.amount)} (${r.ratePercent})\n`;
           if (r.benefit) text += `   * Quyền lợi: ${r.benefit}\n`;
         });
       } else {
         text += `Khách hàng đóng 30% vốn tự có: ${formatVND(dataLoan.totalCustomerPaid)}\n`;
         text += `Ngân hàng giải ngân 70%: ${formatVND(dataLoan.totalBankDisbursed)} (Hỗ trợ LS 0% & ân hạn gốc 24 tháng)\n`;
         dataLoan.rows.forEach(r => {
-          text += `[${r.order}] ${r.periodNote} (${formatDate(r.dueDate)}):\n`;
+          text += `[${r.order}] ${r.periodNote}${r.cadenceNote ? ` - ${r.cadenceNote}` : ''}:\n`;
           text += `   - KH đóng: ${formatVND(r.customerAmount)}\n`;
           if (r.bankAmount > 0) text += `   - Ngân hàng giải ngân: ${formatVND(r.bankAmount)}\n`;
           if (r.benefit) text += `   * Quyền lợi: ${r.benefit}\n`;
@@ -1057,7 +1143,7 @@
     text += `- Gói cảnh quan sân vườn và cây xanh ban công\n`;
     text += `- Miễn phí vận hành (an ninh, vệ sinh) 03 năm đầu tiên cho 10 căn đầu\n`;
     text += `- Chính sách khai thác dòng tiền 12 tháng không lợi nhuận cùng ĐXMT (sau đó chia sẻ 85/15)\n`;
-    text += `- Thời gian CĐT cập nhật Giấy chứng nhận: ngày 28/02/2027 (sổ nhà tháng 3/2027)\n`;
+    text += `- Thời gian CĐT cập nhật Giấy chứng nhận: thực hiện theo thông báo chính thức từ CĐT\n`;
 
     return text;
   }
@@ -1108,24 +1194,27 @@
     renderKPIBar(unit);
     renderUnitDetailCard(unit);
     renderFinancialBreakdown(unit);
+    syncMobileBarLabel(unit);
     renderUnitList();
+  }
+
+  // --- MỞ HỘP THOẠI SAO CHÉP ZALO ---
+  function openCopyModal() {
+    const modalOverlay = document.getElementById('copy-modal');
+    const copyTextarea = document.getElementById('modal-copy-textarea');
+    if (!modalOverlay || !copyTextarea) return;
+    const unit = GARDENIA_PRODUCTS.find(u => u.stt === state.selectedUnitId) || GARDENIA_PRODUCTS[0];
+    copyTextarea.value = generateConsultationSummaryText(unit);
+    modalOverlay.classList.add('open');
   }
 
   // --- KHỞI TẠO SỰ KIỆN ---
   function initEvents() {
-    // Tìm kiếm ô input
     const searchInput = document.getElementById('search-input');
-    if (searchInput) {
-      searchInput.addEventListener('input', function () {
-        state.filters.search = this.value;
-        renderUnitList();
-      });
-    }
-
-    // Bộ lọc dạng sổ xuống theo phễu phân cấp 3 tầng (Cascading Funnel)
     const typeSelect = document.getElementById('filter-type');
     const blockSelect = document.getElementById('filter-block');
     const budgetSelect = document.getElementById('filter-budget');
+    const unitSelect = document.getElementById('filter-unit');
 
     // 1. Tầng 1: Loại hình sản phẩm thay đổi
     if (typeSelect) {
@@ -1157,7 +1246,17 @@
       });
     }
 
-    // 4. Ô tìm kiếm từ khóa
+    // 4. Tầng 4: Thẻ chọn sản phẩm / Mã căn xổ xuống thay đổi
+    if (unitSelect) {
+      unitSelect.addEventListener('change', function () {
+        const id = parseInt(this.value, 10);
+        if (!isNaN(id)) {
+          selectUnit(id);
+        }
+      });
+    }
+
+    // 5. Ô tìm kiếm từ khóa
     if (searchInput) {
       searchInput.addEventListener('input', function () {
         state.filters.search = this.value;
@@ -1166,7 +1265,7 @@
       });
     }
 
-    // 5. Nút Đặt lại bộ lọc
+    // 6. Nút Đặt lại bộ lọc
     const resetBtn = document.getElementById('btn-reset-filter');
     if (resetBtn) {
       resetBtn.addEventListener('click', function () {
@@ -1191,6 +1290,42 @@
       });
     });
 
+    // Đóng/mở Accordion Chính sách quà tặng & tiện ích trên Mobile
+    const togglePerksBtn = document.getElementById('btn-toggle-perks');
+    const perksSection = document.getElementById('perks-section');
+    const perksToggleText = document.getElementById('perks-toggle-text');
+    if (togglePerksBtn && perksSection) {
+      togglePerksBtn.addEventListener('click', function () {
+        state.perksExpanded = !state.perksExpanded;
+        perksSection.classList.toggle('is-expanded', state.perksExpanded);
+        togglePerksBtn.setAttribute('aria-expanded', state.perksExpanded ? 'true' : 'false');
+        if (perksToggleText) {
+          perksToggleText.textContent = state.perksExpanded ? 'Thu gọn' : 'Xem chi tiết';
+        }
+      });
+    }
+
+    // Thanh thao tác cố định dưới đáy màn hình Mobile
+    const mobilePickUnitBtn = document.getElementById('btn-mobile-pick-unit');
+    if (mobilePickUnitBtn) {
+      mobilePickUnitBtn.addEventListener('click', function () {
+        const selectorPanel = document.getElementById('product-selector-panel');
+        if (selectorPanel) {
+          selectorPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        if (unitSelect) {
+          setTimeout(() => {
+            unitSelect.focus({ preventScroll: true });
+          }, 350);
+        }
+      });
+    }
+
+    const mobileCopyZaloBtn = document.getElementById('btn-mobile-copy-zalo');
+    if (mobileCopyZaloBtn) {
+      mobileCopyZaloBtn.addEventListener('click', openCopyModal);
+    }
+
     // Nút Sao chép tóm tắt
     const copyModalBtn = document.getElementById('btn-copy-modal');
     const modalOverlay = document.getElementById('copy-modal');
@@ -1199,12 +1334,8 @@
     const copyDoBtn = document.getElementById('modal-copy-action');
     const copyTextarea = document.getElementById('modal-copy-textarea');
 
-    if (copyModalBtn && modalOverlay && copyTextarea) {
-      copyModalBtn.addEventListener('click', function () {
-        const unit = GARDENIA_PRODUCTS.find(u => u.stt === state.selectedUnitId) || GARDENIA_PRODUCTS[0];
-        copyTextarea.value = generateConsultationSummaryText(unit);
-        modalOverlay.classList.add('open');
-      });
+    if (copyModalBtn) {
+      copyModalBtn.addEventListener('click', openCopyModal);
     }
 
     if (modalCloseBtn && modalOverlay) {

@@ -45,21 +45,21 @@
     <!-- BỐ CỤC CHÍNH (2 CỘT) -->
     <div class="main-grid">
       
-      <!-- CỘT TRÁI: BỘ LỌC VÀ DANH SÁCH 75 CĂN -->
-      <aside class="sidebar-panel">
+      <!-- CỘT TRÁI: BỘ LỌC VÀ CHỌN SẢN PHẨM -->
+      <aside class="sidebar-panel" id="product-selector-panel">
         <div class="panel-title">
-          <span>Tra cứu bảng hàng</span>
+          <span>Tra cứu & Chọn sản phẩm</span>
           <span class="counter-badge" id="unit-filtered-count">75 / 75</span>
         </div>
 
         <div class="search-input-wrapper">
-          <input type="text" id="search-input" class="search-input" placeholder="Tìm mã lô (vd: 01-08), đường..." />
+          <input type="text" id="search-input" class="search-input" placeholder="Tìm nhanh mã lô (vd: 01-08), đường..." />
         </div>
 
-        <!-- BỘ LỌC DẠNG SỔ XUỐNG GỌN GÀNG (PHỄU 3 TẦNG) -->
+        <!-- BỘ LỌC PHỄU 4 TẦNG KÈM THẺ CHỌN SẢN PHẨM XỔ XUỐNG -->
         <div class="filter-dropdowns-grid">
           <!-- TẦNG 1: LOẠI HÌNH SẢN PHẨM -->
-          <div class="filter-field">
+          <div class="filter-field filter-field-half">
             <label class="filter-label" for="filter-type">Loại hình sản phẩm</label>
             <select id="filter-type" class="filter-select">
               <option value="all">Tất cả loại hình (75 căn)</option>
@@ -69,7 +69,7 @@
           </div>
 
           <!-- TẦNG 2: PHÂN KHU / DÃY LIỀN KỀ (TỰ ĐỘNG LỌC THEO LOẠI HÌNH) -->
-          <div class="filter-field">
+          <div class="filter-field filter-field-half">
             <label class="filter-label" for="filter-block">Phân khu / Dãy liền kề</label>
             <select id="filter-block" class="filter-select">
               <option value="all">Tất cả phân khu (75 căn)</option>
@@ -77,21 +77,30 @@
           </div>
 
           <!-- TẦNG 3: KHOẢNG GIÁ NIÊM YẾT (TỰ ĐỘNG LỌC THEO LOẠI HÌNH & PHÂN KHU) -->
-          <div class="filter-field">
+          <div class="filter-field filter-field-full">
             <label class="filter-label" for="filter-budget">Khoảng giá niêm yết</label>
             <select id="filter-budget" class="filter-select">
               <option value="all">Tất cả mức giá</option>
             </select>
           </div>
 
-          <button id="btn-reset-filter" class="filter-reset-btn" type="button">Đặt lại bộ lọc</button>
+          <!-- TẦNG 4: THẺ CHỌN SẢN PHẨM / MÃ CĂN XỔ XUỐNG -->
+          <div class="filter-field filter-field-full filter-field-unit">
+            <div class="filter-unit-label-row">
+              <label class="filter-label filter-label-unit" for="filter-unit">Chọn sản phẩm / Mã căn</label>
+              <button id="btn-reset-filter" class="filter-reset-btn" type="button">Đặt lại bộ lọc</button>
+            </div>
+            <select id="filter-unit" class="filter-select filter-select-unit">
+              <!-- Render danh sách mã căn xổ xuống động -->
+            </select>
+          </div>
         </div>
 
         <!-- TAGS BỘ LỌC ĐANG ÁP DỤNG -->
         <div class="active-filter-chips" id="active-filter-chips" style="display: none;"></div>
 
         <div class="unit-list-container" id="unit-list-items">
-          <!-- Render danh sách sản phẩm động -->
+          <!-- Render danh sách sản phẩm động trên màn hình lớn -->
         </div>
       </aside>
 
@@ -131,6 +140,10 @@
                 <span class="tab-info-tag">11 đợt thanh toán</span>
               </div>
               <div class="tab-subtext">Thuê nhà 0 đồng trong 18 tháng để kinh doanh & nội thất</div>
+              <div class="tab-mobile-compact">
+                <span class="tab-mobile-name">Tiến độ 24T</span>
+                <span class="tab-mobile-sub">CK 18%</span>
+              </div>
             </button>
 
             <!-- Nút 2: Vay vốn Ngân hàng (Đất Xanh Orange) -->
@@ -147,6 +160,10 @@
                 <span class="tab-highlight-tag tag-bank">HTLS 0% 24 tháng</span>
               </div>
               <div class="tab-subtext">Vốn tự có 30% - Ân hạn nợ gốc 24 tháng đầu tiên</div>
+              <div class="tab-mobile-compact">
+                <span class="tab-mobile-name">Vay Ngân hàng</span>
+                <span class="tab-mobile-sub">CK 4% | LS 0%</span>
+              </div>
             </button>
 
             <!-- Nút 3: Đối chiếu song song (Slate) -->
@@ -162,6 +179,10 @@
                 <span class="tab-highlight-tag tag-slate">So sánh trực tiếp</span>
               </div>
               <div class="tab-subtext">Xem bảng so sánh vốn tự có & dòng tiền 2 phương án</div>
+              <div class="tab-mobile-compact">
+                <span class="tab-mobile-name">So sánh</span>
+                <span class="tab-mobile-sub">2 phương án</span>
+              </div>
             </button>
           </div>
         </div>
@@ -172,21 +193,31 @@
         </div>
 
         <!-- CHÍNH SÁCH QUÀ TẶNG & TIỆN ÍCH BÀN GIAO -->
-        <section class="perks-section">
-          <div class="section-header-row">
-            <h3 class="section-title">Chính sách Quà tặng & Tiện ích Hỗ trợ Khách hàng</h3>
-            <span class="badge-benefit">Chính sách bán hàng Đợt 1</span>
-          </div>
+        <section class="perks-section" id="perks-section">
+          <button type="button" class="perks-accordion-header" id="btn-toggle-perks" aria-expanded="false">
+            <div class="perks-header-title-wrap">
+              <h3 class="section-title">Chính sách Quà tặng & Tiện ích Hỗ trợ Khách hàng</h3>
+              <span class="badge-benefit">Chính sách bán hàng Đợt 1</span>
+            </div>
+            <span class="perks-toggle-indicator">
+              <span class="perks-toggle-text" id="perks-toggle-text">Xem chi tiết</span>
+              <svg class="perks-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </span>
+          </button>
 
-          <div class="perks-grid" id="perks-grid-container">
-            <!-- Render các gói hỗ trợ từ chính sách -->
-          </div>
+          <div class="perks-collapsible-body" id="perks-collapsible-body">
+            <div class="perks-grid" id="perks-grid-container">
+              <!-- Render các gói hỗ trợ từ chính sách -->
+            </div>
 
-          <div style="margin-top: 20px; border-top: 1px solid var(--color-border-subtle); padding-top: 16px;">
-            <div class="section-title" style="font-size: 13px; margin-bottom: 8px;">Tiện ích bàn giao đẳng cấp chuẩn resort trong phố</div>
-            <ul class="resort-list" id="resort-amenities-container">
-              <!-- Render tiện ích resort -->
-            </ul>
+            <div class="resort-amenities-divider">
+              <div class="section-title" style="font-size: 13px; margin-bottom: 8px;">Tiện ích bàn giao đẳng cấp chuẩn resort trong phố</div>
+              <ul class="resort-list" id="resort-amenities-container">
+                <!-- Render tiện ích resort -->
+              </ul>
+            </div>
           </div>
         </section>
 
@@ -194,6 +225,24 @@
 
     </div>
 
+  </div>
+
+  <!-- THANH THAO TÁC NHANH CỐ ĐỊNH DƯỚI ĐÁY MÀN HÌNH DI ĐỘNG -->
+  <div class="mobile-bottom-bar" id="mobile-bottom-bar">
+    <button type="button" class="btn btn-outline mobile-bar-btn" id="btn-mobile-pick-unit">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+      </svg>
+      <span id="mobile-bar-unit-label">Đổi mã căn</span>
+    </button>
+    <button type="button" class="btn btn-primary mobile-bar-btn" id="btn-mobile-copy-zalo">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+      </svg>
+      <span>Sao chép gửi Zalo</span>
+    </button>
   </div>
 
   <!-- MODAL SAO CHÉP TÓM TẮT DÀNH CHO SALES -->

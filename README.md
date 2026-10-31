@@ -65,3 +65,4 @@ Mỗi khi chỉnh sửa giá/chính sách trong `data.js` hoặc thêm tên mi�
 node build_secure.js
 ```
 Hệ thống sẽ tự động cập nhật bản mã hóa mới vào cả 2 thư mục `dist/` và `docs/`.
+
